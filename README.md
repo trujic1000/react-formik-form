@@ -6,11 +6,11 @@
 
 ```bash
 # Install dependencies
-npm install
+npm install / yarn
 
 # Serve on localhost:3000
-npm start
+npm start / yarn start
 
 # Build for production
-npm run build
+npm run build / yarn build
 ```
