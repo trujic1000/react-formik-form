@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { Header } from './Header';
 import { Button } from '@material-ui/core';
+import * as yup from 'yup';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -18,6 +19,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const validationSchema = yup.object({
+  firstName: yup
+    .string()
+    .required('First Name is required')
+    .max(20),
+  lastName: yup
+    .string()
+    .required('Last Name is required')
+    .max(20),
+  email: yup
+    .string()
+    .email('Invalid email')
+    .required('Email is required')
+});
+
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   const classes = useStyles();
   return (
@@ -29,36 +45,45 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
           setFormData(values);
           nextStep();
         }}
+        validationSchema={validationSchema}
       >
-        <Form className={classes.form}>
-          <Field
-            name='firstName'
-            label='First Name'
-            margin='normal'
-            as={TextField}
-          />
-          <Field
-            name='lastName'
-            label='Last Name'
-            margin='normal'
-            as={TextField}
-          />
-          <Field
-            type='email'
-            name='email'
-            label='Email'
-            margin='normal'
-            as={TextField}
-          />
-          <Button
-            type='submit'
-            variant='contained'
-            color='primary'
-            className={classes.button}
-          >
-            Continue
-          </Button>
-        </Form>
+        {({ errors, touched }) => (
+          <Form className={classes.form}>
+            <Field
+              name='firstName'
+              label='First Name *'
+              margin='normal'
+              as={TextField}
+              error={touched.firstName && errors.firstName}
+              helperText={touched.firstName && errors.firstName}
+            />
+            <Field
+              name='lastName'
+              label='Last Name *'
+              margin='normal'
+              as={TextField}
+              error={touched.lastName && errors.lastName}
+              helperText={touched.lastName && errors.lastName}
+            />
+            <Field
+              type='email'
+              name='email'
+              label='Email *'
+              margin='normal'
+              as={TextField}
+              error={touched.email && errors.email}
+              helperText={touched.email && errors.email}
+            />
+            <Button
+              type='submit'
+              variant='contained'
+              color='primary'
+              className={classes.button}
+            >
+              Continue
+            </Button>
+          </Form>
+        )}
       </Formik>
     </>
   );
