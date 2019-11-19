@@ -1,7 +1,6 @@
 import React from 'react';
+import { UserForm } from './components/UserForm';
 
-function App() {
-  return <div className='App'>Hello World!</div>;
-}
-
-export default App;
+export const App = () => {
+  return <UserForm />;
+};
